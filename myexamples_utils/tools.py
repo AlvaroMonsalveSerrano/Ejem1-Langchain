@@ -4,7 +4,11 @@ import os
 from functools import lru_cache
 from typing import Literal
 
+from langchain.tools import tool, ToolRuntime
+
 from tavily import TavilyClient
+
+from myexamples_dto.context import Context
 
 
 @lru_cache(maxsize=1)
@@ -25,3 +29,10 @@ def internet_search(
         include_raw_content=include_raw_content,
         topic=topic,
     )
+
+
+@tool
+def fetch_user_data(query: str, runtime: ToolRuntime[Context]) -> str:
+    """Recuperar datos para el usuario actual."""
+    user_id = runtime.context.user_id
+    return f"Datos para el usuario {user_id}: {query}"

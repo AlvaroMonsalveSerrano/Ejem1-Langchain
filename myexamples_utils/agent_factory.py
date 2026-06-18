@@ -12,9 +12,12 @@ def build_agent(
     tools: list[Callable] | None = None,
     memory: list[str] | None = None,
     skills: list[str] | None = None,
+    context_schema: type | None = None,
 ) -> CompiledStateGraph:
     """Crea y devuelve un agente deepagents con la configuración indicada."""
     kwargs: dict[str, Any] = dict(model=model, tools=tools or [], memory=memory or [])
     if skills:
         kwargs["skills"] = skills
+    if context_schema is not None:
+        kwargs["context_schema"] = context_schema
     return create_deep_agent(**kwargs)
